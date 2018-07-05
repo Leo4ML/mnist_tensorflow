@@ -53,12 +53,12 @@ accuracy = tf.reduce_mean(tf.cast(correct_prediction,tf.float32))
 
 with tf.Session() as sess:
     sess.run(init)
-    for i in range(31):
+    for i in range(19):
         for o in range(n_batch):
             batch_xs,batch_ys = mnist.train.next_batch(batch_size)
-            sess.run(train_step,feed_dict={y:batch_ys,x:batch_xs,keep_prob:1.0})
-        test_acc = sess.run(accuracy,feed_dict={x:mnist.test.images,y:mnist.test.labels,keep_prob:1.0})
-        train_acc = sess.run(accuracy,feed_dict={x:mnist.train.images,y:mnist.train.labels,keep_prob:1.0})
+            sess.run(train_step,feed_dict={y:batch_ys,x:batch_xs,keep_prob:0.7})
+        test_acc = sess.run(accuracy,feed_dict={x:mnist.test.images,y:mnist.test.labels,keep_prob:0.7})
+        train_acc = sess.run(accuracy,feed_dict={x:mnist.train.images,y:mnist.train.labels,keep_prob:0.7})
         if i%3==0:
             print('第'+str(i)+'次训练准确率为：'+str(train_acc)+'测试准确率为：'+str(test_acc))
     
