@@ -16,13 +16,13 @@ x = tf.placeholder(tf.float32, [None,784])
 y = tf.placeholder(tf.float32, [None,10])
 keep_prob = tf.placeholder(tf.float32)
  #第一层
-w1 = tf.Variable(tf.truncated_normal([784,2000],stddev=0.1))
-b1 = tf.Variable(tf.zeros([2000])+0.1)
+w1 = tf.Variable(tf.truncated_normal([784,200],stddev=0.1))
+b1 = tf.Variable(tf.zeros([200])+0.1)
 L1 = tf.nn.tanh(tf.matmul(x,w1)+b1)
 #dropout方法，keep_prob表示有多少比例的神经元在工作
 L1_drop = tf.nn.dropout(L1,keep_prob)
 
-
+'''
 #第二层
 w2 = tf.Variable(tf.truncated_normal([2000,2000],stddev=0.1))
 b2 = tf.Variable(tf.zeros([2000])+0.1)
@@ -35,15 +35,16 @@ b3 = tf.Variable(tf.zeros([1000])+0.1)
 L3 = tf.nn.tanh(tf.matmul(L2_drop,w3)+b3)
 L3_drop = tf.nn.dropout(L3,keep_prob)
 
-
-w4 = tf.Variable(tf.truncated_normal([1000,10],stddev=0.1))
+'''
+w4 = tf.Variable(tf.truncated_normal([200,10],stddev=0.1))
 b4 = tf.Variable(tf.zeros([10])+0.1)
-prediction = tf.nn.softmax(tf.matmul(L3_drop,w4)+b4)
+prediction = tf.nn.softmax(tf.matmul(L1_drop,w4)+b4)
 
 
 #loss = tf.reduce_mean(tf.square(y-L4))
 loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y,logits=prediction))
-train_step = tf.train.GradientDescentOptimizer(0.2).minimize(loss)
+#train_step = tf.train.GradientDescentOptimizer(0.2).minimize(loss)
+train_step = tf.train.AdamOptimizer(0.01).minimize(loss)
 
 init = tf.global_variables_initializer()
 
